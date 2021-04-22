@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Message;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,10 @@ class HomeController extends Controller
     {        
         $request->user()->authorizeRoles(['user', 'admin']);
 
-        return view('home');
+        $messages = Message::all()->sortByDesc('created_at'); 
+        //dd($messages);
+        //$messages = array_reverse($messages);
+        return view('home', compact('messages'));
+        
     }
 }

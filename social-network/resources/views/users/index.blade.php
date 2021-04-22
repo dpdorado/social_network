@@ -1,16 +1,16 @@
-@extends('./layouts.app')
+@extends('template_home')
 
-@section('content')
+@section('content_')
 <div class="row">
 
-<div class="col-sm-12">
-  <div class="">
-    
-    <h4 class="display-4">Usuarios</h4>    
-    
-    <div class="float-right">
-        <a style="margin: 19px;" href="{{ route('users.create')}}" class="btn btn-primary">Agregar usuario</a>
-    </div> 
+  <div class="col-sm-12">
+    <div class="">
+      
+      <h4 class="display-4">Usuarios</h4>    
+      
+      <div class="float-right">
+          <a style="margin: 19px;" href="{{ route('users.create')}}" class="btn btn-primary">Agregar usuario</a>
+      </div> 
   </div>
 
   <div class="table-responsive">
@@ -47,16 +47,22 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->roles[0]->description}}</td>
                     <td>{{$user->password}}</td>
-                    <td>
-                        <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">Editar</a>
-                    </td>
-                    <td>
-                        <form action="{{ route('users.destroy', $user->id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" type="submit">Borrar</button>
-                        </form>
-                    </td>
+                    
+                    @if ($user->id == Auth::user()->id)
+                      <td></td>
+                      <td></td>                    
+                    @else
+                      <td>
+                          <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">Editar</a>
+                      </td>
+                      <td>
+                          <form action="{{ route('users.destroy', $user->id)}}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger" type="submit">Borrar</button>
+                          </form>
+                      </td>
+                    @endif
                 </tr>
                 @empty
                 <p>No se encontraron usuarios registrados.</p>

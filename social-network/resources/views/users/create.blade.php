@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('template_home')
 
-@section('content')
+@section('content_')
 <div class="row">
  <div class="col-sm-8 offset-sm-2">
     <h1 class="display-3">Registrar usuario</h1>
@@ -37,10 +37,9 @@
             </div>       
 
             <div class="form-group">
-                <label for="password_confirmation">Confirmar contraseña:</label>
-                <input type="password" class="form-control" name="password_confirmation" value="" />
-            </div>       
-
+                <label for="password-confirm">Confirmar contraseña:</label>
+                <input type="password" id="password-confirm" class="form-control" name="password_confirmation" value="" />
+            </div>                   
             
             <div class="form-group">
                 <label for="role">Rol:</label>            

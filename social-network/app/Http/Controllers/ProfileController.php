@@ -3,31 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
-     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
-        $users = User::has('roles')->with("roles")->paginate(5);                        
-        return view('users.index', compact('users'));
+    {
+        //
     }
 
     /**
@@ -37,8 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();  
-        return view('users.create',compact('roles'));
+        //
     }
 
     /**
@@ -49,36 +37,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-      
-        $rules = [                        
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:30|unique:users,username',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required'
-        ];     
-        $customMessages = [
-            //'required' => 'Cuidado!! el campo :attribute no se puede dejar vacío',
-            'id.unique'=> 'ya existe un usuario resgistrado con este id.',
-            //'name.required' => 'Cuidado!! el campo del nombre no se admite vacío',
-        ];
-        $validatedData = $request->validate($rules, $customMessages);                
-
-        $user = User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'profile_pic' => 'profile.png',
-            'friend_count'=> 0,
-            'status' => 1,
-            'password' => Hash::make($data['password']),
-        ]);
-            
-        $user->roles()->attach(Role::where('name', $data['role'])->first());        
-        $user->save();
-
-        return redirect('/users')->with('success', 'El usuario ha sido registrado!');
+        //
     }
 
     /**
@@ -100,9 +59,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();          
-        $user = User::has('roles')->with("roles")->find($id);        
-        return view('users.edit', compact('user','roles'));
+        $user = User::find($id);
+        return view('profiles.edit', compact('user'));
     }
 
     /**
@@ -114,25 +72,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        $data = $request->all();        
 
         $rules = [            
             'id' => 'exists:users,id',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:30',
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required'
+            'password' => 'required|string|min:8|confirmed',                     
         ];
         $customMessages = [
             //'required' => 'Cuidado!! el campo :attribute no se puede dejar vacío',
             'id.unique'=> 'ya existe un usuario resgistrado con este id.',
             //'name.required' => 'Cuidado!! el campo del nombre no se admite vacío',
         ];
-        $validatedData = $request->validate($rules, $customMessages);        
+        $validatedData = $request->validate($rules, $customMessages);                 
 
         $user = User::find($id);
         
+
         if ( !($user->email == $request->get('email')) || !($user->username == $request->get('username'))){
             $rules = [                                          
                 'username' => 'unique:users,username',
@@ -140,7 +98,6 @@ class UserController extends Controller
             ];  
             $validatedData = $request->validate($rules, $customMessages);
         }
-
         $pass = $request->get('password');        
         
         if (!Hash::check($pass, $user->password))
@@ -148,12 +105,19 @@ class UserController extends Controller
             $user->password = Hash::make($pass);
         }
         
+        if ($request->hasFile('imagen')){           
+            $image = $request->file('imagen');
+            $image->move('uploads', $image->getClientOriginalName());
+            $user->profile_pic = $image->getClientOriginalName();
+        }
+
         $user->name =  $request->get('name');
-        $user->username =  $request->get('username');
-        $user->email = $request->get('email');        
+        $user->name =  $request->get('username');
+        $user->email = $request->get('email');                        
+
         $user->save();
 
-        return redirect('/users')->with('success', 'Información del ususario '.$id.' actualizada!');
+        return redirect('/home');
     }
 
     /**
@@ -164,9 +128,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-        $user->delete();
-
-        return redirect('/users')->with('success', 'El usuario '.$id.' ha sido eliminado!');
+        //
     }
 }

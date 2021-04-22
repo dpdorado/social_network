@@ -30,12 +30,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>                    
-
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">                                  
+                   
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -57,6 +53,16 @@
                                         {{ Auth::user()->name }}
                                 </a> 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href=""
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('profile-form').submit();">
+                                        {{ __('Profile') }}
+                                    </a>
+
+                                    <form id="profile-form" action="{{ route('profiles.edit',Auth::user()->id)}}" method="GET" class="d-none">
+                                        @csrf
+                                    </form>
+                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -65,66 +71,19 @@
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
-                                    </form>
-
-                                    <a class="dropdown-item" href=""
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
-                                        {{ __('Profile') }}
-                                    </a>
-
-                                    <form id="profile-form" action="" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                                    </form>                                    
                                 </div>                                
-                            </li>                            
+                            </li>   
+                                                                                 
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <!--<main class="py-4">
+        <main class="py-4">
             @yield('content')
-        </main>-->
-
-        <br>
-
-        <main class= "container-fluid">
-            <div class="row"> 
-                <div class="col-2 order-1 order-sm-2">                                    
-                    <nav class="">
-                        <div class="nav flex-column " aria-orientation="vertical" >          
-                            <ul class="nav navbar-nav nav-pills nav-fill">
-                                <li class="nav-item" id="home">
-                                    <a class="nav-link" href="" >Home</a>
-                                </li>
-                                <li class="nav-item" id="clientes">
-                                    <a class="nav-link active" href="{{ url('users')}}">Usuarios</a>          
-                                </li>
-                                <li class="nav-item" id="facturas">
-                                    <a class="nav-link" href="">------</a>
-                                </li>
-                                <li class="nav-item" id="ofrendas">
-                                    <a class="nav-link" href="">------</a>
-                                </li>
-                                <li class="nav-item" id="categorias">
-                                    <a class="nav-link" href="">------</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>           
-
-                <div class="col order-2 order-sm-1">                
-                    @yield('content')
-                </div>                                
-                
-            </div>
-            <footer class="text-center">
-                <p>&copy; 2021 Social Network derechos reservados</p>
-            </footer>
-        </main>    
+        </main>       
     </div>
 </body>
 </html>

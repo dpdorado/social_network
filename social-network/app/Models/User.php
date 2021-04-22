@@ -50,6 +50,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    
+    public function messages()
+    {
+        return $this->hasMany(Message::class,'uid');
+    }
+
+    //Relaciónd e muchos a muchos con menssajes
+    public function likes(){
+        return $this->belongsToMany(Message::class, 'message_like', 'uid',
+        'msg_id')->withTimestamps();
+    }
+    
+
     /**
      * 
      */
@@ -75,7 +88,7 @@ class User extends Authenticatable
     }
     
     public function hasRole($role)
-    {
+    {        
         if ($this->roles()->where('name', $role)->first()) {
             return true;
         }
