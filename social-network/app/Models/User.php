@@ -94,4 +94,12 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function is_like($m_id){
+        //dd($this->likes()->where('msg_id', $m_id)->first());
+        if ($this->likes()->where('msg_id', $m_id)->first()){    
+            return true;
+        }
+        return false;
+    }
 }

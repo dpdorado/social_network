@@ -72,7 +72,7 @@ class MessageController extends Controller
             'share_count' => 0,
             'uid'=> $request->user()->id
         ]);       
-        $message->users()->attach(User::where('id', $request->user()->id)->first());        
+        //$message->users()->attach(User::where('id', $request->user()->id)->first());        
         $message->save();
 
         return redirect('/home')->with('success', 'El mensaje se ha publicado!!');

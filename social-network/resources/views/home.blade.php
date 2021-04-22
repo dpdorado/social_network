@@ -34,7 +34,13 @@
                 <div class="card-body">
                     <h5 class="card-title">Mensaje</h5>
                     <p class="card-text">{{$message->message}}</p>
-                    <a href="#" class="btn btn-primary">{{$message->like_count}} Me gusta</a>
+
+                    @if(Auth::user()->is_like($message->id))    
+                        <a href="{{ route('like',$message->id)}}" class="btn btn-success">{{$message->like_count}} Me gusta</a>
+                    @else
+                        <a href="{{ route('like',$message->id)}}" class="btn btn-primary">{{$message->like_count}} Me gusta</a>
+                    @endif        
+                    
                     <a href="#" class="btn btn-primary">{{$message->comment_count}} Comentar</a>
                     <a href="#" class="btn btn-primary">{{$message->share_count}} Compartir</a>
                 </div>
