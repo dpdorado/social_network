@@ -7,5 +7,7 @@ Simulación de una red social en la cual los usuarios pueden publicar mensajes y
 > 1. Roles de Admin y User
 > 1. El Admin puede crear, editar y elimnar todo tipo de usuarios
 > 1. El Admin y los usuarios pueden publicar mensajes.
-> 1.El admin y los usuarios pueder reaccinar a los mensajes de los demás.
+> 1. El admin y los usuarios pueder reaccinar a los mensajes de los demás.
 
+
+### by Daniel Dorado
