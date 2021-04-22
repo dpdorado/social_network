@@ -26,9 +26,7 @@ class HomeController extends Controller
     {        
         $request->user()->authorizeRoles(['user', 'admin']);
 
-        $messages = Message::all()->sortByDesc('created_at'); 
-        //dd($messages);
-        //$messages = array_reverse($messages);
+        $messages = Message::all()->sortByDesc('created_at');        
         return view('home', compact('messages'));
         
     }
